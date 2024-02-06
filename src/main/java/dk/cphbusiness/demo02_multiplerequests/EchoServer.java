@@ -14,67 +14,64 @@ import java.net.Socket;
  **/
 public class EchoServer
 {
+    
     private static final int PORT = 9090;
-
+    
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
-
-    public static void main(String[] args)
+    
+    public static void main( String[] args )
     {
         EchoServer server = new EchoServer();
-        server.startConnection(PORT);
+        server.startConnection( PORT );
     }
-
+    
     /*
      * Purpose of this demo is to show how to accept multiple requests from the client
      * while keeping the connection open
      */
-    public void startConnection(int port)
+    public void startConnection( int port )
     {
-        try (ServerSocket serverSocket = new ServerSocket(port))
-        {
-            clientSocket = serverSocket.accept(); // blocking call
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
+        
+        try ( ServerSocket serverSocket = new ServerSocket( port ) ) {
+            this.clientSocket = serverSocket.accept(); // blocking call
+            this.out = new PrintWriter( this.clientSocket.getOutputStream(), true );
+            this.in = new BufferedReader( new InputStreamReader( this.clientSocket.getInputStream() ) );
+            
             String inputLine;
-
-            do
-            {
-                inputLine = in.readLine();
-                if ("bye".equals(inputLine))
-                {
-                    out.println("Good bye ... closing down");
-                } else if (inputLine != null)
-                {
-                    out.println(inputLine);
+            
+            do {
+                inputLine = this.in.readLine();
+                
+                if ( "bye".equals( inputLine ) ) {
+                    this.out.println( "Good bye ... closing down" );
+                    
+                } else if ( inputLine != null ) {
+                    this.out.println( inputLine );
                 }
-            } while (inputLine != null && !inputLine.equals("bye"));
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
-        finally
-        {
-            stopConnection();
+                
+            } while ( inputLine != null && !inputLine.equals( "bye" ) );
+            
+        } catch ( IOException e ) {
+            throw new RuntimeException( e );
+            
+        } finally {
+            this.stopConnection();
         }
     }
-
+    
     public void stopConnection()
     {
-        try
-        {
-            System.out.println("Closing Echo server socket down ....");
-            in.close();
-            out.close();
-            clientSocket.close();
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
+        try {
+            System.out.println( "Closing Echo server socket down ...." );
+            this.in.close();
+            this.out.close();
+            this.clientSocket.close();
+            
+        } catch ( IOException e ) {
+            throw new RuntimeException( e );
         }
     }
-
+    
 }

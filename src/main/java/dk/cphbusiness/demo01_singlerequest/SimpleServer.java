@@ -91,27 +91,31 @@ public class SimpleServer
     {
         StringBuilder stringBuilder = new StringBuilder();
         
-        
+        //Night
         if ( gregorianCalendar.get( Calendar.HOUR_OF_DAY ) >= 22 || gregorianCalendar.get( Calendar.HOUR_OF_DAY ) < 5 ) {
             stringBuilder.append( "God nat til dig, det er kl: " ).append( String.format( "%02d", gregorianCalendar.get( Calendar.HOUR_OF_DAY ) ) ).append( ":" ).append( String.format( "%02d", gregorianCalendar.get( Calendar.MINUTE ) ) ).append( ", burde du ikke være i seng? Dagens dato er " ).append( String.format( "%04d", gregorianCalendar.get( Calendar.YEAR ) ) ).append( "/" ).append( String.format( "%02d", ( gregorianCalendar.get( Calendar.MONTH ) + 1 ) ) ).append( "/" ).append( String.format( "%02d", gregorianCalendar.get( Calendar.DAY_OF_MONTH ) ) );
             return stringBuilder.toString();
         }
         
+        //Evening
         if ( gregorianCalendar.get( Calendar.HOUR_OF_DAY ) >= 17 ) {
             stringBuilder.append( "God aften til dig, det er kl: " ).append( String.format( "%02d", gregorianCalendar.get( Calendar.HOUR_OF_DAY ) ) ).append( ":" ).append( String.format( "%02d", gregorianCalendar.get( Calendar.MINUTE ) ) ).append( ", og det er ved at være tid til at gå i seng. Dagens dato er " ).append( String.format( "%04d", gregorianCalendar.get( Calendar.YEAR ) ) ).append( "/" ).append( String.format( "%02d", ( gregorianCalendar.get( Calendar.MONTH ) + 1 ) ) ).append( "/" ).append( String.format( "%02d", gregorianCalendar.get( Calendar.DAY_OF_MONTH ) ) );
             return stringBuilder.toString();
         }
         
+        //Afternoon
         if ( gregorianCalendar.get( Calendar.HOUR_OF_DAY ) >= 12 ) {
             stringBuilder.append( "God eftermiddag til dig, det er kl: " ).append( String.format( "%02d", gregorianCalendar.get( Calendar.HOUR_OF_DAY ) ) ).append( ":" ).append( String.format( "%02d", gregorianCalendar.get( Calendar.MINUTE ) ) ).append( ", og det er midt på dagen. Dagens dato er " ).append( String.format( "%04d", gregorianCalendar.get( Calendar.YEAR ) ) ).append( "/" ).append( String.format( "%02d", ( gregorianCalendar.get( Calendar.MONTH ) + 1 ) ) ).append( "/" ).append( String.format( "%02d", gregorianCalendar.get( Calendar.DAY_OF_MONTH ) ) );
             return stringBuilder.toString();
         }
         
+        //Before noon
         if ( gregorianCalendar.get( Calendar.HOUR_OF_DAY ) >= 10 ) {
             stringBuilder.append( "God formiddag til dig, det er kl: " ).append( String.format( "%02d", gregorianCalendar.get( Calendar.HOUR_OF_DAY ) ) ).append( ":" ).append( String.format( "%02d", gregorianCalendar.get( Calendar.MINUTE ) ) ).append( ", og det er tideligt. Dagens dato er " ).append( String.format( "%04d", gregorianCalendar.get( Calendar.YEAR ) ) ).append( "/" ).append( String.format( "%02d", ( gregorianCalendar.get( Calendar.MONTH ) + 1 ) ) ).append( "/" ).append( String.format( "%02d", gregorianCalendar.get( Calendar.DAY_OF_MONTH ) ) );
             return stringBuilder.toString();
         }
         
+        //Morning
         if ( gregorianCalendar.get( Calendar.HOUR_OF_DAY ) >= 5 ) {
             stringBuilder.append( "God morgen til dig, det er kl: " ).append( String.format( "%02d", gregorianCalendar.get( Calendar.HOUR_OF_DAY ) ) ).append( ":" ).append( String.format( "%02d", gregorianCalendar.get( Calendar.MINUTE ) ) ).append( ", og det er alt for tideligt! Dagens dato er " ).append( String.format( "%04d", gregorianCalendar.get( Calendar.YEAR ) ) ).append( "/" ).append( String.format( "%02d", ( gregorianCalendar.get( Calendar.MONTH ) + 1 ) ) ).append( "/" ).append( String.format( "%02d", gregorianCalendar.get( Calendar.DAY_OF_MONTH ) ) );
             return stringBuilder.toString();

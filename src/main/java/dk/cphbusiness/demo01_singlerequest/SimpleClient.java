@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class SimpleClient
 {
@@ -19,6 +20,7 @@ public class SimpleClient
     
     public static void main( String[] args )
     {
+        System.out.println();
         SimpleClient client = new SimpleClient();
         client.startConnection( IP, PORT );
         
@@ -39,7 +41,7 @@ public class SimpleClient
             this.out = new PrintWriter( this.clientSocket.getOutputStream(), true );
             
             this.in = new BufferedReader( new InputStreamReader( this.clientSocket.getInputStream() ) );
-        
+            
         } catch ( IOException e ) {
             throw new RuntimeException( e );
         }
@@ -47,13 +49,9 @@ public class SimpleClient
     
     public void sendMessage( String msg )
     {
-        try {
-            this.out.println( msg );
-            this.response = this.in.readLine();
+        this.out.println( msg );
+        this.getResponseUntilEnd();
         
-        } catch ( IOException e ) {
-            throw new RuntimeException( e );
-        }
     }
     
     public void stopConnection()
@@ -76,4 +74,30 @@ public class SimpleClient
     {
         return this.response;
     }
+    
+    public String getResponseUntilEnd()
+    {
+        ArrayList< String > strings = new ArrayList<>();
+        
+        for ( int i = 0; i < 2000000000; i++ ) {
+            
+            try {
+                strings.add( this.in.readLine() );
+                
+                if ( strings.get( i ) == null ) {
+                    strings.remove( i );
+                    break;
+                }
+                
+            } catch ( IOException e ) {
+                this.response = String.join( "\n", strings.toArray( new String[ 0 ] ) );
+                return this.response;
+            }
+            
+        }
+        
+        this.response = String.join( "\n", strings.toArray( new String[ 0 ] ) );
+        return this.response;
+    }
+    
 }

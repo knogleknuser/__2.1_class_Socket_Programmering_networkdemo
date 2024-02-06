@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class EchoClient
 {
@@ -22,14 +23,19 @@ public class EchoClient
         EchoClient client = new EchoClient();
         client.startConnection( IP, PORT );
         
-        client.sendMessage( "Hello SimpleServer" );
-        System.out.println( "Response 1: " + client.response );
+        boolean keepGoing = true;
+        int counter = 0;
+        String input;
         
-        client.sendMessage( "Second message" );
-        System.out.println( "Response 2: " + client.response );
-        
-        client.sendMessage( "bye" );
-        System.out.println( client.response );
+        while ( keepGoing ) {
+            input = getStringFromKeyboard();
+            client.sendMessage( input );
+            System.out.println( "Response " + counter++ + ": " + client.response );
+            
+            if ( input != null && input.equals( "bye" ) ) {
+                keepGoing = false;
+            }
+        }
         
         client.stopConnection();
     }
@@ -73,6 +79,15 @@ public class EchoClient
     public String getResponse()
     {
         return this.response;
+    }
+    
+    public static String getStringFromKeyboard()
+    {
+        System.out.print( "Your Input : " );
+        
+        Scanner scanner = new Scanner( System.in );
+        
+        return scanner.nextLine();
     }
     
 }

@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Random;
 
 /*
  * Purpose of this demo is to show how to read the client request and send it back from the server
@@ -48,7 +49,7 @@ public class EchoServer
                     this.out.println( "Good bye ... closing down" );
                     
                 } else if ( inputLine != null ) {
-                    this.out.println( inputLine );
+                    this.out.println( getRandomResponse() + inputLine );
                 }
                 
             } while ( inputLine != null && !inputLine.equals( "bye" ) );
@@ -59,6 +60,20 @@ public class EchoServer
         } finally {
             this.stopConnection();
         }
+    }
+    
+    private static String getRandomResponse()
+    {
+        String[] randomStrings = {
+                "Din mor: ",
+                "Fucking nice at du sagde ",
+                "Mhmmhm mere? Oh ja du sagde: ",
+                "Du elsker echoer ikke? Det håber jeg! Echo: "
+        };
+        
+        Random random = new Random();
+        
+        return randomStrings[ random.nextInt( randomStrings.length ) ];
     }
     
     public void stopConnection()

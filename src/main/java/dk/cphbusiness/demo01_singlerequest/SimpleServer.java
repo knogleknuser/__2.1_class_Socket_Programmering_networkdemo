@@ -16,52 +16,52 @@ import java.net.Socket;
  */
 public class SimpleServer
 {
-
+    
     private static final int PORT = 9090;
-
+    
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
-
-    public static void main(String[] args)
+    
+    public static void main( String[] args )
     {
         SimpleServer server = new SimpleServer();
-        server.startConnection(PORT);
+        server.startConnection( PORT );
     }
-
-    public void startConnection(int port)
+    
+    public void startConnection( int port )
     {
-        try (ServerSocket serverSocket = new ServerSocket(port))
-        {
-            clientSocket = serverSocket.accept(); // blocking call
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            String greeting = in.readLine();
-            System.out.println(greeting);
-            out.println("Hello SimpleClient, Greetings from SimpleServer");
-        }
-        catch (IOException e)
-        {
+        try ( ServerSocket serverSocket = new ServerSocket( port ) ) {
+            this.clientSocket = serverSocket.accept(); // blocking call
+            
+            this.out = new PrintWriter( this.clientSocket.getOutputStream(), true );
+            
+            this.in = new BufferedReader( new InputStreamReader( this.clientSocket.getInputStream() ) );
+            
+            String greeting = this.in.readLine();
+            
+            System.out.println( greeting );
+            this.out.println( "Hello SimpleClient, Greetings from SimpleServer" );
+            
+        } catch ( IOException e ) {
             e.printStackTrace();
-        }
-        finally
-        {
-            stopConnection();
+            
+        } finally {
+            this.stopConnection();
         }
     }
-
+    
     public void stopConnection()
     {
-        try
-        {
-            System.out.println("Closing down socket ...");
-            in.close();
-            out.close();
-            clientSocket.close();
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
+        try {
+            System.out.println( "Closing down socket ..." );
+            
+            this.in.close();
+            this.out.close();
+            this.clientSocket.close();
+            
+        } catch ( IOException e ) {
+            throw new RuntimeException( e );
         }
     }
 }

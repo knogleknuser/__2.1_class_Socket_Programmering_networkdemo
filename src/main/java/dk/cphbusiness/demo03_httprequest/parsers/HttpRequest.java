@@ -1,6 +1,7 @@
 package dk.cphbusiness.demo03_httprequest.parsers;
 
 import dk.cphbusiness.demo01_singlerequest.SimpleClient;
+import dk.cphbusiness.demo03_httprequest.HttpServer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +15,10 @@ public class HttpRequest
     
     public static void main( String[] args )
     {
-        HttpRequest httpRequest = new HttpRequest( "localhost", 9090 );
+        HttpServer httpServer = new HttpServer();
+        new Thread( () -> httpServer.startConnection( 9090 ) ).start();
+        
+        HttpRequest httpRequest = new HttpRequest( "127.0.0.1", 9090 );
         
         Map< String, String > headerMap = httpRequest.parse();
         

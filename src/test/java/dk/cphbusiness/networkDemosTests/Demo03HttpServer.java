@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.*;
+import java.util.ArrayList;
 
 class Demo03HttpServer
 {
@@ -45,69 +46,69 @@ class Demo03HttpServer
         } catch ( MalformedURLException e ) {
             throw new RuntimeException( e );
         }
-        httpURLConnection = new HttpURLConnection( url )
-        {
-            /**
-             * Opens a communications link to the resource referenced by this
-             * URL, if such a connection has not already been established.
-             * <p>
-             * If the {@code connect} method is called when the connection
-             * has already been opened (indicated by the {@code connected}
-             * field having the value {@code true}), the call is ignored.
-             * <p>
-             * URLConnection objects go through two phases: first they are
-             * created, then they are connected.  After being created, and
-             * before being connected, various options can be specified
-             * (e.g., doInput and UseCaches).  After connecting, it is an
-             * error to try to set them.  Operations that depend on being
-             * connected, like getContentLength, will implicitly perform the
-             * connection, if necessary.
-             *
-             * @throws SocketTimeoutException if the timeout expires before
-             *                                the connection can be established
-             * @throws IOException            if an I/O error occurs while opening the
-             *                                connection.
-             * @see URLConnection#connected
-             * @see #getConnectTimeout()
-             * @see #setConnectTimeout(int)
-             */
-            @Override
-            public void connect() throws IOException
-            {
-
-//                response = this.responseMessage;
-                
-            }
-            
-            /**
-             * Indicates that other requests to the server
-             * are unlikely in the near future. Calling disconnect()
-             * should not imply that this HttpURLConnection
-             * instance can be reused for other requests.
-             */
-            @Override
-            public void disconnect()
-            {
-            
-            }
-            
-            /**
-             * Indicates if the connection is going through a proxy.
-             * <p>
-             * This method returns {@code true} if the connection is known
-             * to be going or has gone through proxies, and returns {@code false}
-             * if the connection will never go through a proxy or if
-             * the use of a proxy cannot be determined.
-             *
-             * @return a boolean indicating if the connection is using a proxy.
-             */
-            @Override
-            public boolean usingProxy()
-            {
-                return false;
-            }
-        };
-        httpURLConnection.connect();
+//        httpURLConnection = new HttpURLConnection( url )
+//        {
+//            /**
+//             * Opens a communications link to the resource referenced by this
+//             * URL, if such a connection has not already been established.
+//             * <p>
+//             * If the {@code connect} method is called when the connection
+//             * has already been opened (indicated by the {@code connected}
+//             * field having the value {@code true}), the call is ignored.
+//             * <p>
+//             * URLConnection objects go through two phases: first they are
+//             * created, then they are connected.  After being created, and
+//             * before being connected, various options can be specified
+//             * (e.g., doInput and UseCaches).  After connecting, it is an
+//             * error to try to set them.  Operations that depend on being
+//             * connected, like getContentLength, will implicitly perform the
+//             * connection, if necessary.
+//             *
+//             * @throws SocketTimeoutException if the timeout expires before
+//             *                                the connection can be established
+//             * @throws IOException            if an I/O error occurs while opening the
+//             *                                connection.
+//             * @see URLConnection#connected
+//             * @see #getConnectTimeout()
+//             * @see #setConnectTimeout(int)
+//             */
+//            @Override
+//            public void connect() throws IOException
+//            {
+//
+////                response = this.responseMessage;
+//
+//            }
+//
+//            /**
+//             * Indicates that other requests to the server
+//             * are unlikely in the near future. Calling disconnect()
+//             * should not imply that this HttpURLConnection
+//             * instance can be reused for other requests.
+//             */
+//            @Override
+//            public void disconnect()
+//            {
+//
+//            }
+//
+//            /**
+//             * Indicates if the connection is going through a proxy.
+//             * <p>
+//             * This method returns {@code true} if the connection is known
+//             * to be going or has gone through proxies, and returns {@code false}
+//             * if the connection will never go through a proxy or if
+//             * the use of a proxy cannot be determined.
+//             *
+//             * @return a boolean indicating if the connection is using a proxy.
+//             */
+//            @Override
+//            public boolean usingProxy()
+//            {
+//                return false;
+//            }
+//        };
+//        httpURLConnection.connect();
     }
     
     @AfterEach
@@ -124,7 +125,39 @@ class Demo03HttpServer
         PrintWriter out = new PrintWriter( clientSocket.getOutputStream(), true );
         BufferedReader in = new BufferedReader( new InputStreamReader( clientSocket.getInputStream() ) );
         
-        System.out.println(in.readLine());
+        ArrayList< String > strings = new ArrayList<>();
+        String line;
+        int i = 0;
+        
+        
+        
+        try {
+            do {
+                i++;
+                System.out.println(in.ready());
+                line = in.readLine();
+                
+                if ( line != null ) {
+                    strings.add( line );
+                }
+                
+                System.out.println(line);
+            } while ( in.ready() && line != null && i < 2000000000 );
+            
+            
+        } catch ( IOException ignored ) {
+        }
+        
+        
+        
+        response = String.join( "\n", strings.toArray( new String[ 0 ] ) );
+        System.out.println();
+        System.out.println( response );
+        System.out.println();
+        
+        clientSocket.close();
+        in.close();
+        out.close();
     }
     
 }

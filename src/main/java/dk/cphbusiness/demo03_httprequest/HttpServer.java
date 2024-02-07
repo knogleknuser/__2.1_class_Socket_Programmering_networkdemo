@@ -31,30 +31,53 @@ public class HttpServer
     
     public void startConnection( int port )
     {
-        try ( ServerSocket serverSocket = new ServerSocket( port ) ) {
+        try ( ServerSocket serverSocket = new ServerSocket( port ); ) {
+            
             this.clientSocket = serverSocket.accept(); // wait for client request
             this.out = new PrintWriter( this.clientSocket.getOutputStream(), true );
+            
             
             String responseHeader = "HTTP/1.1 200 OK" + System.lineSeparator() +
                     "Date: Mon, 23 May 2022 22:38:34 GMT" + System.lineSeparator() +
                     "Server: Apache/2.4.1 (Unix)\n" +
                     "Content-Type: text/html; charset=UTF-8" + System.lineSeparator() +
-                    "Content-Length: 87" + System.lineSeparator() +
+                    "Content-Length: 200" + System.lineSeparator() +
                     "Connection: close" + System.lineSeparator();
             
-            String responseBody = "<html><head><title>hello world</title></head><body><h1>Hello World</h1></body></html>";
+            
+            String responseBody =
+                            "<html>" +
+                                "<head>" +
+                                    "<title>" +
+                                        "hello world why do you suck so much" +
+                                    "</title>" +
+                                "</head>" +
+                                "<body>" +
+                                    "<h1>" +
+                                        "hello world why do you suck so much" +
+                                    "</h1>" +
+                                    "<p>" +
+                                        "hello world why do you suck so much" +
+                                    "</p>" +
+                                "</body>" +
+                            "</html>";
             
             this.out.println( responseHeader );
-            this.out.println( System.lineSeparator() + System.lineSeparator() ); // separate header and payload section
+//            this.out.println( System.lineSeparator() + System.lineSeparator() ); // separate header and payload section
             this.out.println( responseBody );
+            
+            
+            
+            
             
         } catch ( IOException e ) {
             System.out.println( "An error has occured during network I/O" );
             throw new RuntimeException( e );
             
-        } finally {
-            this.stopConnection();
         }
+        //finally {
+//            this.stopConnection();
+        //}
         
     }
     

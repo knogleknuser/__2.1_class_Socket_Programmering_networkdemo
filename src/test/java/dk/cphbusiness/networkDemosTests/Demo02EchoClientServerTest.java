@@ -1,5 +1,7 @@
-package dk.cphbusiness.demo02_multiplerequests;
+package dk.cphbusiness.networkDemosTests;
 
+import dk.cphbusiness.demo02_multiplerequests.EchoClient;
+import dk.cphbusiness.demo02_multiplerequests.EchoServer;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -44,7 +44,7 @@ public class EchoClient
         }
     }
 
-    void sendMessage(String msg)
+    public void sendMessage(String msg)
     {
         try
         {
@@ -57,7 +57,7 @@ public class EchoClient
         }
     }
 
-    void stopConnection()
+    public void stopConnection()
     {
         try
         {

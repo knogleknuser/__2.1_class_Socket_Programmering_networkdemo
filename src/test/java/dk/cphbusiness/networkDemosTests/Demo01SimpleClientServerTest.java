@@ -1,4 +1,4 @@
-package dk.cphbusiness.demo02_multiplerequests;
+package dk.cphbusiness.networkDemosTests;
 
 import dk.cphbusiness.demo01_singlerequest.SimpleClient;
 import dk.cphbusiness.demo01_singlerequest.SimpleServer;

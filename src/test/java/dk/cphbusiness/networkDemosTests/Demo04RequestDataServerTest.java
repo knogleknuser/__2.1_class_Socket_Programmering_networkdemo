@@ -1,4 +1,4 @@
-package dk.cphbusiness.demo02_multiplerequests;
+package dk.cphbusiness.networkDemosTests;
 
 import dk.cphbusiness.demo04_httpparsing.RequestDataClient;
 import dk.cphbusiness.demo04_httpparsing.RequestDataServer;

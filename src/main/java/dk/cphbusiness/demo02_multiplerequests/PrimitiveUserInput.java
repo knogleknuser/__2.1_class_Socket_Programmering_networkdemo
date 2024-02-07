@@ -4,13 +4,13 @@ import java.util.Scanner;
 
 public class PrimitiveUserInput
 {
-    private static final Scanner scanner = new Scanner( System.in );
+    private final Scanner scanner = new Scanner( System.in );
     
-    public static String getStringFromKeyboard()
+    public String getStringFromKeyboard()
     {
         System.out.print( "Your Input : " );
         
-        return scanner.nextLine();
+        return this.scanner.nextLine();
     }
     
 }

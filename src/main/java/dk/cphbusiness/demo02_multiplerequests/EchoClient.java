@@ -17,33 +17,37 @@ public class EchoClient
     private BufferedReader in;
     private String response;
     
+    private final PrimitiveUserInput primitiveUserInput = new PrimitiveUserInput();
+    
     public static void main( String[] args )
     {
         EchoClient client = new EchoClient();
         client.startConnection( IP, PORT );
         
-        int counter = 1;
-        String input;
-        
-        do {
-            input = PrimitiveUserInput.getStringFromKeyboard();
-            client.sendMessage( "CLIENT: " + input );
-            System.out.println( "Response " + counter++ + ": " + client.response );
-            
-        } while ( input == null || !input.equals( "bye" ) );
-        
-        client.stopConnection();
     }
     
     public void startConnection( String ip, int port )
     {
-        try  {
-            this.clientSocket = new Socket( ip, port );
+        try (Socket clientSocket = new Socket( ip, port );) {
+            this.clientSocket = clientSocket;
             this.out = new PrintWriter( this.clientSocket.getOutputStream(), true );
             this.in = new BufferedReader( new InputStreamReader( this.clientSocket.getInputStream() ) );
             
+            int counter = 1;
+            String input;
+            
+            do {
+                input = this.primitiveUserInput.getStringFromKeyboard();
+                this.sendMessage( "CLIENT: " + input );
+                System.out.println( "Response " + counter++ + ": " + this.response );
+                
+            } while ( input == null || !input.equals( "bye" ) );
+            
         } catch ( IOException e ) {
             throw new RuntimeException( e );
+            
+        } finally {
+            this.stopConnection();
         }
     }
     

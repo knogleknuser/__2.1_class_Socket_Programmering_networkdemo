@@ -22,6 +22,8 @@ public class EchoServer
     private PrintWriter out;
     private BufferedReader in;
     
+    private final PrimitiveUserInput primitiveUserInput = new PrimitiveUserInput();
+    
     public static void main( String[] args )
     {
         EchoServer server = new EchoServer();
@@ -51,7 +53,7 @@ public class EchoServer
                     this.out.println( "Good bye ... closing down" );
                     
                 } else if ( inputLine != null ) {
-                    this.out.println( "SERVER: " + PrimitiveUserInput.getStringFromKeyboard() );
+                    this.out.println( "SERVER: " + this.primitiveUserInput.getStringFromKeyboard() );
                 }
                 
             } while ( inputLine != null && !inputLine.equals( "bye" ) );

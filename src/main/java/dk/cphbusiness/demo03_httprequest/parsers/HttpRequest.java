@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Map;
+import java.util.*;
 
 public class HttpRequest
 {
@@ -15,6 +15,12 @@ public class HttpRequest
     public static void main( String[] args )
     {
         HttpRequest httpRequest = new HttpRequest( "localhost", 9090 );
+        
+        Map< String, String > headerMap = httpRequest.parse();
+        
+        for ( Map.Entry< String, String > entry : headerMap.entrySet() ) {
+            System.out.print( "[ " + entry.getKey() + " ]" + " : " + "[ " + entry.getValue() + "]" );
+        }
     }
     
     private final String ip;
@@ -30,8 +36,7 @@ public class HttpRequest
         this.ip = ip;
         this.port = port;
         
-        this.startConnection();
-        
+        this.parse();
     }
     
     public void startConnection()
@@ -52,14 +57,25 @@ public class HttpRequest
         }
     }
     
-    public void request()
+    public void requestResponse()
     {
+        ArrayList< String > lines = new ArrayList<>();
+        
+        int i = 0;
+        String line;
+        
         try {
-            this.out.println( msg );
-            this.response = this.in.readLine();
-        } catch ( IOException e ) {
-            throw new RuntimeException( e );
+            
+            while ( ( line = this.in.readLine() ) != null && i < 2000000000 ) {
+                i++;
+                lines.add( line );
+            }
+            
+        } catch ( IOException ignored ) {
+            System.out.println( "IO Exception - but who cares?" );
         }
+        
+        this.response = String.join( System.lineSeparator(), lines );
     }
     
     public void stopConnection()
@@ -81,7 +97,36 @@ public class HttpRequest
     
     public Map< String, String > parse()
     {
-    
+        this.startConnection();
+        this.requestResponse();
+        
+        Map< String, String > headerMap = new LinkedHashMap<>();
+        StringTokenizer stringTokenizer = new StringTokenizer( this.response );
+        
+        String key;
+        String value;
+        
+        try {
+            
+            headerMap.put( "Header", stringTokenizer.nextToken( System.lineSeparator() ) );
+            
+            while ( true ) {
+                key = stringTokenizer.nextToken( ": " );
+                try {
+                    value = stringTokenizer.nextToken( System.lineSeparator() );
+                    headerMap.put( key, value );
+                } catch ( NoSuchElementException e ) {
+                    value = stringTokenizer.nextToken();
+                    headerMap.put( key, value );
+                }
+            }
+            
+        } catch ( NoSuchElementException ignored ) {
+        
+        }
+        
+        this.stopConnection();
+        return headerMap;
     }
     
 }

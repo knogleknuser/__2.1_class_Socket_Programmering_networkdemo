@@ -6,12 +6,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.*;
+import java.text.Format;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class Demo03HttpServer
 {
@@ -124,33 +126,54 @@ class Demo03HttpServer
         Socket clientSocket = new Socket( IP, PORT );
         PrintWriter out = new PrintWriter( clientSocket.getOutputStream(), true );
         BufferedReader in = new BufferedReader( new InputStreamReader( clientSocket.getInputStream() ) );
+
+//        BufferedReader in = new BufferedReader( new FileReader("line") );
         
-        ArrayList< String > strings = new ArrayList<>();
-        String line;
+        
+        ArrayList< String > lines = new ArrayList<>();
+        
         int i = 0;
-        
-        
+        String line;
         
         try {
-            do {
-                i++;
-                System.out.println(in.ready());
-                line = in.readLine();
-                
-                if ( line != null ) {
-                    strings.add( line );
-                }
-                
-                System.out.println(line);
-            } while ( in.ready() && line != null && i < 2000000000 );
             
+            while ( ( line = in.readLine() ) != null && i < 2000000000 ) {
+                i++;
+                lines.add( line );
+
+//                System.out.println(line);
+
+//                System.out.println( in.ready() );
+//                System.out.println( stringBuilder.toString() );
+//                System.out.println( Arrays.toString(stringBuilder.toString().toCharArray()) );
+                
+            }
             
         } catch ( IOException ignored ) {
+            System.out.println( "IO Exception - but who cares?" );
         }
+
+//        for ( int i = 0; i < 2000000000; i++ ) {
+//            try {
+//                strings.add( in.readLine() );
+//
+//                System.out.println(strings.get( i ));
+//                if ( strings.get( i ) == null ) {
+//                    strings.remove( i );
+//                    break;
+//                }
+//                System.out.println(in.ready());
+//                if ( !in.ready() ) {
+//                    break;
+//                }
+//
+//            } catch ( Exception e ) {
+//                throw new RuntimeException( e );
+//            }
+//        } //Nevermind I am stupid
         
+        response = String.join( System.lineSeparator(), lines );
         
-        
-        response = String.join( "\n", strings.toArray( new String[ 0 ] ) );
         System.out.println();
         System.out.println( response );
         System.out.println();
@@ -158,6 +181,25 @@ class Demo03HttpServer
         clientSocket.close();
         in.close();
         out.close();
+        
+        String expected = HttpServer.responseHeader + System.lineSeparator() + HttpServer.responseBody;
+//        System.out.println( expected.length() + ", " + response.length() );
+//        System.out.println( expected );
+//        System.out.println( response );
+//
+//        char[] expectedChar = expected.toCharArray();
+//        char[] responseChar = expected.toCharArray();
+//
+//        for ( int j = 0; j < expectedChar.length; j++ ) {
+//            System.out.println( expectedChar[ j ] );
+//        }
+//
+//        System.out.println("Actual!");
+//
+//        for ( int j = 0; j < responseChar.length; j++ ) {
+//            System.out.println( responseChar[ j ] );
+//        }
+        assertEquals( expected, response );
     }
     
 }

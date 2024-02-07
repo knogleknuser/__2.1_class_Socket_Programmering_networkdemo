@@ -19,6 +19,30 @@ public class HttpServer
     private Socket clientSocket;
     private PrintWriter out;
     
+    public static final String responseHeader = "HTTP/1.1 200 OK" + System.lineSeparator() +
+        "Date: Mon, 23 May 2022 22:38:34 GMT" + System.lineSeparator() +
+        "Server: Apache/2.4.1 (Unix)" + System.lineSeparator()+
+        "Content-Type: text/html; charset=UTF-8" + System.lineSeparator() +
+        "Content-Length: 200" + System.lineSeparator() +
+        "Connection: close" + System.lineSeparator();
+    
+    public static final String responseBody =
+            "<html>" +
+                    "<head>" +
+                    "<title>" +
+                    "hello world why do you suck so much" +
+                    "</title>" +
+                    "</head>" +
+                    "<body>" +
+                    "<h1>" +
+                    "hello world why do you suck so much" +
+                    "</h1>" +
+                    "<p>" +
+                    "hello world why do you suck so much" +
+                    "</p>" +
+                    "</body>" +
+                    "</html>";
+    
     public static void main( String[] args )
     {
         HttpServer server = new HttpServer();
@@ -37,34 +61,15 @@ public class HttpServer
             this.out = new PrintWriter( this.clientSocket.getOutputStream(), true );
             
             
-            String responseHeader = "HTTP/1.1 200 OK" + System.lineSeparator() +
-                    "Date: Mon, 23 May 2022 22:38:34 GMT" + System.lineSeparator() +
-                    "Server: Apache/2.4.1 (Unix)\n" +
-                    "Content-Type: text/html; charset=UTF-8" + System.lineSeparator() +
-                    "Content-Length: 200" + System.lineSeparator() +
-                    "Connection: close" + System.lineSeparator();
+            String responseHeader = HttpServer.responseHeader;
             
             
-            String responseBody =
-                            "<html>" +
-                                "<head>" +
-                                    "<title>" +
-                                        "hello world why do you suck so much" +
-                                    "</title>" +
-                                "</head>" +
-                                "<body>" +
-                                    "<h1>" +
-                                        "hello world why do you suck so much" +
-                                    "</h1>" +
-                                    "<p>" +
-                                        "hello world why do you suck so much" +
-                                    "</p>" +
-                                "</body>" +
-                            "</html>";
+            String responseBody =HttpServer.responseBody;
             
-            this.out.println( responseHeader );
+            this.out.print( responseHeader );
+            this.out.print( System.lineSeparator() );
 //            this.out.println( System.lineSeparator() + System.lineSeparator() ); // separate header and payload section
-            this.out.println( responseBody );
+            this.out.print( responseBody );
             
             
             
@@ -75,9 +80,9 @@ public class HttpServer
             throw new RuntimeException( e );
             
         }
-        //finally {
-//            this.stopConnection();
-        //}
+        finally {
+            this.stopConnection();
+        }
         
     }
     

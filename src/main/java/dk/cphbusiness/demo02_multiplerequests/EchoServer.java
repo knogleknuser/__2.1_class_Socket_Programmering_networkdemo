@@ -45,11 +45,13 @@ public class EchoServer
             do {
                 inputLine = this.in.readLine();
                 
+                System.out.println( inputLine );
+                
                 if ( "bye".equals( inputLine ) ) {
                     this.out.println( "Good bye ... closing down" );
                     
                 } else if ( inputLine != null ) {
-                    this.out.println( getRandomResponse() + inputLine );
+                    this.out.println( "SERVER: " + PrimitiveUserInput.getStringFromKeyboard() );
                 }
                 
             } while ( inputLine != null && !inputLine.equals( "bye" ) );

@@ -89,7 +89,7 @@ public class HttpServer
     public void stopConnection()
     {
         try {
-            System.out.println( "Closing down client socket" );
+            System.out.println( "Closing down server socket" );
             this.out.close();
             this.clientSocket.close();
             

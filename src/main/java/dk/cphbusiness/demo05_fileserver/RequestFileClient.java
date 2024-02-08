@@ -17,8 +17,10 @@ public class RequestFileClient
         String httpRequest =
                 "GET /pages/index.html HTTP/1.1" + System.lineSeparator() +
                         "Host: " + IP + System.lineSeparator() +
-                        "Content-Type: text/html; charset=UTF-8" + System.lineSeparator() +
-                        "Content-Length: 87" + System.lineSeparator() +
+                        "User-Agent: SimpleWebClient" + System.lineSeparator() +
+                        "Accept: */*" + System.lineSeparator() +
+                        "Content-Type: application/x-www-form-urlencoded" + System.lineSeparator() +
+                        "Content-Length: " + postData.length() + System.lineSeparator() +
                         "Connection: close" + System.lineSeparator();
         client.sendMessage( httpRequest );
         

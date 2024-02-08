@@ -22,7 +22,12 @@ public class RequestFileServer
     public static void main( String[] args )
     {
         RequestFileServer server = new RequestFileServer();
-        while ( true ) {
+        
+        if ( args != null || args.length != 0 ) {
+//            while ( true ) {
+                server.startConnection( PORT );
+//            }
+        } else {
             server.startConnection( PORT );
         }
     }

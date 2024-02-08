@@ -64,8 +64,18 @@ public class HttpRequest
         }
     }
     
+    public void requestResponse( String httpRequest )
+    {
+        if ( httpRequest != null ) {
+            this.outPw.print( httpRequest );
+        }
+        
+        this.requestResponse();
+    }
+    
     public void requestResponse()
     {
+        
         ArrayList< String > lines = new ArrayList<>();
         
         int i = 0;
@@ -76,6 +86,8 @@ public class HttpRequest
             while ( ( line = this.inBr.readLine() ) != null && i < 2000000000 ) {
                 i++;
                 lines.add( line );
+                
+                System.out.println(line);
             }
             
         } catch ( IOException ignored ) {
@@ -102,8 +114,13 @@ public class HttpRequest
     
     public Map< String, String > parse()
     {
+        return this.parse( null );
+    }
+    
+    public Map< String, String > parse( String httpRequest )
+    {
         this.startConnection();
-        this.requestResponse();
+        this.requestResponse( httpRequest );
         
         if ( this.responseString == null ) {
             return null;
@@ -183,6 +200,10 @@ public class HttpRequest
     
     public Map< String, String > getLastParsedHttpRequest()
     {
+        if ( this.lastParsedHttpRequest == null ) {
+            return null;
+        }
+        
         return this.lastParsedHttpRequest;
     }
     

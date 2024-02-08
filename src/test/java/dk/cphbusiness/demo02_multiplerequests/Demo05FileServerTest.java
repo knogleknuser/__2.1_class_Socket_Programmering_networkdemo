@@ -46,16 +46,18 @@ class Demo05FileServerTest
     {
         String shttpRequest =
                 "GET /pages/index.html HTTP/1.1" + System.lineSeparator() +
-                        "Host: " + IP + System.lineSeparator() +
-                        "Content-Type: text/html; charset=UTF-8" + System.lineSeparator() +
-                        "Content-Length: 87" + System.lineSeparator() +
-                        "Connection: close" + System.lineSeparator();
+                        "Host: " + IP + System.lineSeparator();
         
         HttpRequest httpRequest = new HttpRequest( IP, PORT );
         
         httpRequest.parse( shttpRequest );
         
         String expected = "<html><head><title>hello world</title></head><body><h1>Hello World</h1></body></html>";
+        
+        assertNotNull( httpRequest.getLastParsedHttpRequest() );                               //Not Null
+        assertNotEquals( 0, httpRequest.getLastParsedHttpRequest().size() );         //Not Empty
+        assertTrue( httpRequest.getLastParsedHttpRequest().containsKey( "Body" ) );     //Does Contain
+        
         assertEquals( expected, httpRequest.getLastParsedHttpRequest().get( "Body" ) );
     }
     
@@ -65,20 +67,18 @@ class Demo05FileServerTest
     {
         String shttpRequest =
                 "GET /pages HTTP/1.1" + System.lineSeparator() +
-                        "Host: " + IP + System.lineSeparator() +
-                        "Content-Type: text/html; charset=UTF-8" + System.lineSeparator() +
-                        "Content-Length: 87" + System.lineSeparator() +
-                        "Connection: close" + System.lineSeparator();
-        
+                        "Host: " + IP + System.lineSeparator();
+
         HttpRequest httpRequest = new HttpRequest( IP, PORT );
         
         httpRequest.parse( shttpRequest );
         
         String expected = "<html><head><title>hello world</title></head><body><h1>Hello World</h1></body></html>";
-        assertNotNull( httpRequest.getLastParsedHttpRequest() );
-        assertNotEquals( 0, httpRequest.getLastParsedHttpRequest().size() );
         
-        assertTrue( httpRequest.getLastParsedHttpRequest().containsKey( "Body" ) );
+        assertNotNull( httpRequest.getLastParsedHttpRequest() );                               //Not Null
+        assertNotEquals( 0, httpRequest.getLastParsedHttpRequest().size() );         //Not Empty
+        assertTrue( httpRequest.getLastParsedHttpRequest().containsKey( "Body" ) );     //Does Contain
+        
         assertEquals( expected, httpRequest.getLastParsedHttpRequest().get( "Body" ) );
     }
     

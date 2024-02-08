@@ -67,7 +67,7 @@ public class HttpRequest
     public void requestResponse( String httpRequest )
     {
         if ( httpRequest != null ) {
-            this.outPw.print( httpRequest );
+            this.outPw.println( httpRequest );
         }
         
         this.requestResponse();
@@ -86,8 +86,6 @@ public class HttpRequest
             while ( ( line = this.inBr.readLine() ) != null && i < 2000000000 ) {
                 i++;
                 lines.add( line );
-                
-                System.out.println(line);
             }
             
         } catch ( IOException ignored ) {

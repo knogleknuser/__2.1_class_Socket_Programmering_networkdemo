@@ -23,13 +23,11 @@ public class RequestFileServer
     {
         RequestFileServer server = new RequestFileServer();
         
-        if ( args != null || args.length != 0 ) {
-//            while ( true ) {
-                server.startConnection( PORT );
-//            }
-        } else {
+        
+        while ( true ) {
             server.startConnection( PORT );
         }
+        
     }
     
     private static final int PORT = 9090;
@@ -201,7 +199,7 @@ public class RequestFileServer
                 
                 for ( Map.Entry< String, String > entry : requestBodyData.entrySet() ) {
                     System.out.println();
-                    System.out.println("Login info from the map");
+                    System.out.println( "Login info from the map" );
                     System.out.println( entry.getKey() );
                     System.out.println( entry.getValue() );
                     System.out.println();
